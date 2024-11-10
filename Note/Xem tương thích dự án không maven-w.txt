@@ -1,0 +1,43 @@
+Xem tương thích dự án không? maven-wrapped.properties
+
+target
+class: Sau khi buil sẽ có các .class
+generated-sources: các thư viện, anotatiosn
+
+Buil lại dự án
+mvn spring-boot:run
+
+
+resources
++static: images
+	 icon
+	 scripts
+	 styles
++templates: Thymleaf
++application.properties
+Cấu hình thuộc tính:
+#Cau hinh CSDL
+spring.datasource.url = jdbc:mysql://localhost:3307?mydatabase
+spring.datasource.username=root
+spring.datasource.password=admin
+
+#cau hinh cong server
+server.port=8080
+
+#Cau hinh giao dien Thymeleaf
+spring.thymeleaf.prefix=/WEB-INF/views/
+spring.thymeleaf.suffix=.html
+
+#Cau hinh gui emal
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=myemail@gmail.com
+spring.mail.password=mypassword
+
+#cau hinh logging
+loggin.level.org.springframework-INFO
+logging.level.com.example=DEBUG
+
+
+
+

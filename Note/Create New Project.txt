@@ -1,0 +1,43 @@
+Truy cập vào trang spring initializr
+
+Project 
+Chon Maven
+
+Language
+Java
+
+Spring Boot (né snapshot bởi vì nó là bản thử nghiệmk)
+
+3.1.1
+
+Project Metadata
+
+Group: vn.titv.spring
+Artifact: properties-configuration
+Name: properties-configuration
+Description: Demo
+Description
+Demo project for Spring Boot
+Package name
+vn.titv.properties-configuration
+Packaging Jar
+Java 17
+
+
+Add dependencies in project
+
+Spring Web
+
+Generate => Để tải xuống dự án, sau đó giải nén, kéo thả dự án đó vào Intellji
+Sau đó sẽ trust và kích hoạt project
+
+
+Vao application.properties
+spring.application.name=properties-configuration
+
+server.port=8888
+
+
+Gán giá trị vào biến với tên 
+	@Value("${khoahoc.ten}")
+	private String ten;

@@ -1,0 +1,21 @@
+
+https://www.baeldung.com/spring-boot-starter-parent
+
+spring-boot-starter-*
+
+thay thế các dependencies vào *
+Mục tiêu của parent cung cấp các thông tin cơ bản
+spring.application.name=properties-configuration
+#Cấu hình server port
+server.port=8888
+
+#Cấu hình thông tin khóa học
+khoahoc.ten=Spring va Hibernate
+khoahoc.huongdan=Nguyen Pham Tuyen
+khoahoc.website=www.titv.vn
+
+để sử dụng spring boot devtool
+ta phải seting comnpler
+Buil Project automatically
+Advance Setting => Allow auto-make to start even.....
+

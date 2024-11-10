@@ -1,0 +1,56 @@
+https://viblo.asia/p/spring-boot-actuator-GrLZDp2BZk0
+1. Actuator là gì?
+Spring Boot Actuator là một sub-probject của Spring Boot. Actuator cho phép ta theo dõi, giám sát ứng dụng, thu thập số liệu, lưu lượng truy cập hay trạng thái cơ sở dữ liệu, v.v. mà không cần thêm bất kỳ dòng code nào. Một khi project của ta được cấu hình Spring Actuator thì mặc định ta sẽ có sẵn 16 endpoint để quản lý và theo dõi ứng dụng của ta. Danh sách 16 endpont này sẽ được giới thiệu dưới đây. Trong trường hợp ta muốn có thêm những kiểm soát khác cho ứng dụng thì ta có thể thêm endpoint mới của riêng mình.
+
+/actuator/health...
+/health: Cho biết thông tin "sức khỏe" của ứng dụng như một trạng thái khi truy cập thông qua kết nối không xác thực, hay toàn bộ chi tiết tin message khi xác thực. Nó không nhạy cảm theo mặc định.
+/info: Nó hiển thị thông tin của ứng dụng một cách tùy ý.
+/metricts: Hiển thị thông tin "số liệu" của ứng dụng tại thời điểm hiện tại.
+/env: Hiển thị cấu hình môi trường của ứng dụng, bao gồm các biến môi trường và các cấu hình được đọc từ các nguồn khác nhau
+/trace: Hiển thị thông tin những request HTTP cuối cùng.
+/beans: Hiển thị các bean đã được cấu hình của ứng dụng.
+/loggers: Hiển thị và thay đổi cấu hình log của ứng dụng.
+/mappings: Hiển thị danh sách toàn bộ path của ứng dụng @RequestMapping.
+/shutdown: Nó cho phép ứng dụng được shutdown một cách bình thường.
+/threaddump : hiển thị thông tin về thread dump
+/scheduledtasks : Hiển thị thông tin về các nhiệm vụ định kỳ
+
+
+
+//cho phép truy xuất 
+management.endpoints.web.exposure.include=health,info
+management.endpoints.web.exposure.include=*
+
+// chặn truy xuất
+management.endpoints.web.exposure.exclude=health,info
+
+
+// Khi dùng spring boot sercurity
+ta phải vào terminal lấy mật khẩu và tên người dùng là user
+
+
+còn khôn glà cấu hình với 
+
+#port
+server.port=8888
+
+#Actuator
+management.endpoints.web.exposure.include=*
+
+#user
+spring.security.user.name=admin
+spring.security.user.password=admin
+spring.security.user.roles=ADMIN
+
+
+
+
+
+
+
+
+
+
+
+
+

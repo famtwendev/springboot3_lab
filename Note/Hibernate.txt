@@ -1,0 +1,113 @@
+Giới thiệu về Hibernate
+Hibernate là một framework phát triển ứng dụng trong lĩnh
+vực lập trình Java.
+Được sử dụng để giải quyết vấn đề liên quan đến lưu trữ và
+truy xuất dữ liệu từ cơ sở dữ liệu.
+
+
+Vì sao nên dùng Hibernate?
+• Ánh xạ đối tượng quan hệ - Object Relational Mapping (ORM)
+• Quản lý mối quan hệ - Relationship Management
+• Tối ưu hóa truy vấn - Query Optimization
+
+ORM : có thể ánh xạ các lớp biến thành cơ sở dữ liệu
+
+JPA là gì?
+Jakarta Persistence API (JPA) (bắt đầu từ Java EE9)
+(trước đây được hiểu là Java Persistence API)
+Là một API tiêu chuẩn cho việc phát triển các framework ORM.
+Nó bao gồm các Interface và các phương thức yêu cầu hiện thực
+để sử dụng.
+
+
+
+
+Những lợi ích của JPA
+Không bị phụ thuộc vào 1 nhà cung cấp cụ thể.
+Dễ bảo trì, code linh động.
+Nếu có một nhà cung cấp không còn tồn tại thì sao?
+
+
+Tạo ra user trong CSDL
++ username
++ From host
++ password
++ Phân quyền
+
+Query:
+Tao user
+CREATE USER 'spring'@'%' IDENTIFIED BY 'spring';
+GRANT ALL PRIVILEGES ON * . * TO 'spring'@'%';
+
+Tao Database
+CREATE DATABASE 
+IF NOT EXISTS `QuanLySinhVien` 
+CHARACTER SET utf8mb4 
+COLLATE utf8mb4_general_ci;
+
+Tạo Table
+CREATE TABLE `sinhvien` (
+ `id` int NOT NULL AUTO_INCREMENT,
+ `ho_dem` varchar(45) DEFAULT NULL,
+ `ten` varchar(45) DEFAULT NULL,
+ `email` varchar(45) DEFAULT NULL,
+ PRIMARY KEY (`id`)
+) 
+ENGINE=INNODB 
+AUTO_INCREMENT=1 
+DEFAULT CHARSET=UTF8MB4 
+COLLATE=UTF8MB4_UNICODE_CI;
+
+
+Them data
+INSERT INTO `sinhvien` (`ho_dem`, `ten`, `email`)
+VALUES
+  ('Nguyễn', 'Văn A', 'vana@gmail.com'),
+  ('Trần', 'Thị B', 'thib@gmail.com'),
+  ('Lê', 'Văn C', 'vanc@gmail.com'),
+  ('Phạm', 'Thị D', 'thid@gmail.com'),
+  ('Huỳnh', 'Văn E', 'vane@gmail.com'),
+  ('Nguyễn', 'Thị F', 'thif@gmail.com'),
+  ('Trần', 'Văn G', 'vang@gmail.com'),
+  ('Lê', 'Thị H', 'thih@gmail.com'),
+  ('Phạm', 'Văn I', 'vani@gmail.com'),
+  ('Huỳnh', 'Thị K', 'thik@gmail.com');
+
+EntityManager
+● Với EntityManager, chúng ta có thể:
+1. Lưu trữ đối tượng vào cơ sở dữ liệu bằng cách sử dụng
+phương thức persist().
+2. Lấy đối tượng từ cơ sở dữ liệu bằng cách sử dụng phương
+thức find() hoặc các truy vấn (query methods).
+3. Cập nhật đối tượng bằng cách sử dụng phương thức
+merge().
+4. Xóa đối tượng bằng cách sử dụng phương thức remove().
+
+
+
+
+Thực hành tạo dự án Spring Boot có sử
+dụng Hibernate
+● Lưu ý các dependency:
+○ Liên quan Databse mà bạn đang dùng, ví dụ
+như mysql-connector-j
+○ spring-boot-stater-data-jpa
+
+
+
+Thực hành tạo dự án Spring Boot có sử
+dụng Hibernate
+● Chúng ta cần cấu hình các thông tin để kết nối:
+● spring.datasource.url=jdbc:mysql://localhost:3306/db_name
+● spring.datasource.username=db_username
+● spring.datasource.password=db_password
+● #spring boot tự động phát hiện ra driver-class
+● #spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+
+=============================== JPQL ====================================
+JPQL (Java Persistence Query Language) là một ngôn ngữ truy
+vấn dựa trên đối tượng được sử dụng trong JPA (Java
+Persistence API). JPQL cho phép bạn truy vấn đối tượng trong
+cơ sở dữ liệu một cách độc lập với cơ sở dữ liệu cụ thể.
+

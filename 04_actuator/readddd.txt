@@ -1,0 +1,12 @@
+
+Actuator là một module trong Spring Boot cung cấp các endpoint HTTP để quản lý và giám sát ứng dụng của bạn trong quá trình triển khai. Nó cho phép bạn kiểm tra sức khỏe (health), thông tin về tình trạng của ứng dụng, các thông số cấu hình, logs, và nhiều tính năng khác.
+
+Một số chức năng quan trọng của Spring Boot Actuator bao gồm:
+
+Health checks (Kiểm tra sức khỏe): Actuator cung cấp các endpoint để kiểm tra sức khỏe của ứng dụng, cho biết liệu ứng dụng có hoạt động đúng cách không.
+Metrics (Thống kê): Actuator thu thập và hiển thị các thông số về hiệu suất của ứng dụng, như số lượng request được xử lý, thời gian phản hồi trung bình, v.v.
+Tracing (Theo dõi): Cho phép bạn xem các thông tin liên quan đến quá trình xử lý request của ứng dụng, giúp phân tích và tìm kiếm lỗi.
+Auditing (Kiểm tra log): Actuator cho phép bạn xem các sự kiện quan trọng xảy ra trong ứng dụng, như khi một bean được tạo, một request được nhận, v.v.
+Thông tin ứng dụng và môi trường (Application and Environment Information): Actuator cung cấp thông tin về phiên bản ứng dụng, thông tin môi trường, cấu hình, các beans có sẵn, v.v.
+Shutdown (Tắt ứng dụng): Cho phép bạn dừng ứng dụng Spring Boot thông qua HTTP.
+Để sử dụng Actuator trong ứng dụng Spring Boot của bạn, bạn chỉ cần thêm dependency của Actuator trong pom.xml hoặc build.gradle. Sau đó, bạn có thể truy cập các endpoint Actuator thông qua URL mặc định hoặc tùy chỉnh.
