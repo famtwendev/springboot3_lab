@@ -1,9 +1,7 @@
 package com.famtwen.identity_service.dto.response;
 
-import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
 import java.time.LocalDate;
 
 @Data
@@ -19,4 +17,5 @@ public class UserResponse {
     String lastName;
     LocalDate dob;
 }
+
 // sau khi tao thi tao mapper
