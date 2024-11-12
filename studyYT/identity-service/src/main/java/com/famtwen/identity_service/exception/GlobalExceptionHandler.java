@@ -1,11 +1,13 @@
 package com.famtwen.identity_service.exception;
 
 import com.famtwen.identity_service.dto.request.ApiResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+@Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -13,6 +15,7 @@ public class GlobalExceptionHandler {
     tương ứng với các lỗi không xác định hoặc chưa được định nghĩa cụ thể.*/
     @ExceptionHandler(value = Exception.class)
     ResponseEntity<ApiResponse> handlingRuntimeException(RuntimeException exception){
+        log.error("Exception: ", exception);
         ApiResponse apiResponse = new ApiResponse();
 
         apiResponse.setCode(ErrorCode.UNCATEGORIZED_EXCEPTION.getCode());
@@ -45,8 +48,10 @@ public class GlobalExceptionHandler {
         } catch (IllegalArgumentException e){     }
 
         ApiResponse apiResponse = new ApiResponse();
+
         apiResponse.setCode(errorCode.getCode());
         apiResponse.setMessage(errorCode.getMessage());
+
         return ResponseEntity.badRequest().body(apiResponse);
     }
 }

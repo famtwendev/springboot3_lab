@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthenticationController {
-    private final AuthenticationService authenticationService;
+    AuthenticationService authenticationService;
 
     @PostMapping("/log-in")
     ApiResponse<AuthenticationResponse>authenticated(@RequestBody AuthenticationRequest request)
     {
-        boolean result = authenticationService.authenticate(request);
+        var result = authenticationService.authenticate(request);
         authenticationService.authenticate(request);
-        return ApiResponse.<AuthenticationResponse>builder().result(AuthenticationResponse.builder().authenticated(result).build()).build();
+        return ApiResponse.<AuthenticationResponse>builder().result(result).build();
     }
 }
