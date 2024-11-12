@@ -34,15 +34,20 @@ public class AuthenticationService {
 
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
+        //Đối số 10 là độ khó của thuật toán, xác định số vòng lặp của thuật toán Bcrypt.
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         var user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
+        //Kiểm tra pass người dùng nhập vào từ request có match với pass đã lưu.
         boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
 
-        if (!authenticated)
+        //Kiểm tra nếu mật khẩu không đúng:
+        if (!authenticated) {
             throw new AppException(ErrorCode.UNAUTHENTICATED);
+        }
 
+        //Tạo token JWT:
         var token = generateToken(request.getUsername());
 
         return AuthenticationResponse.builder()
@@ -69,7 +74,8 @@ public class AuthenticationService {
         JWSObject jwsObject = new JWSObject(header, payload);
 
         try {
-            jwsObject.sign(new MACSigner(SIGNER_KEY.getBytes())); // NGoai ra con khoa khac nhu private key public key
+            jwsObject.sign(new MACSigner(SIGNER_KEY.getBytes())); // Sử dụng Khóa đối xứng (Symmetric Key)
+
             return jwsObject.serialize();
         } catch (JOSEException e) {
             log.error("Cannot create token", e);
