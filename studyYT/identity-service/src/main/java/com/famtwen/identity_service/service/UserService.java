@@ -42,6 +42,9 @@ public class UserService {
 
         userMapper.updateUser(user, request);
 
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+
         return userMapper.toUserResponse(userRepository.save(user));
     }
     public void deleteUser(String userId){

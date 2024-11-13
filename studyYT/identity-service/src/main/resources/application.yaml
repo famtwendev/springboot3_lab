@@ -14,14 +14,16 @@ spring:
 #      password: none
 
   #config show banner
-  main:
-    banner-mode: off
-
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
 
+  jwt:
+    signerkey : "XWl33AU6HWMautGS26y9CbGCIigErNizJnufWoFGEjvjUaIJBjmen2ggppRMM8Hy"
+
+  main:
+    banner-mode: off
 # Config logging ( debug -> info -> warn -> error -> fatle)
 # logging:
 #  level:
