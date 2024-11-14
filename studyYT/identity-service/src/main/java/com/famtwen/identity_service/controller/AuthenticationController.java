@@ -25,29 +25,18 @@ import java.text.ParseException;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
 public class AuthenticationController {
+
     AuthenticationService authenticationService;
 
-    UserService userService;
-
     @PostMapping("/token")
-    ApiResponse<AuthenticationResponse>authenticated(@RequestBody AuthenticationRequest request)
-    {
+    ApiResponse<AuthenticationResponse> authenticated(@RequestBody AuthenticationRequest request) {
         var result = authenticationService.authenticate(request);
         return ApiResponse.<AuthenticationResponse>builder().result(result).build();
     }
+
     @PostMapping("/introspect")
-    ApiResponse<IntrospectResponse>authenticated(@RequestBody IntrospectRequest request) throws ParseException, JOSEException {
+    ApiResponse<IntrospectResponse> authenticated(@RequestBody IntrospectRequest request) throws ParseException, JOSEException {
         var result = authenticationService.introspect(request);
         return ApiResponse.<IntrospectResponse>builder().result(result).build();
     }
-
-    @GetMapping("/info")
-    ApiResponse<UserResponse> getCurrentUser(){
-        var username = SecurityContextHolder.getContext().getAuthentication().getName();
-        log.info("Username: {}", username);
-        return ApiResponse.<UserResponse>builder()
-                .result(userService.getMyinfo(username))
-                .build();
-    }
-
 }
