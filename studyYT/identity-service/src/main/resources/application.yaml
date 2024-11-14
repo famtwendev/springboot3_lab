@@ -8,10 +8,11 @@ spring:
     url: "jdbc:mysql://localhost:3307/identity_service"
     username: root
     password: admin
+
 #  security:
 #    user:
-#      name: none
-#      password: none
+#      name: root
+#      password: root
 
   #config show banner
   jpa:
