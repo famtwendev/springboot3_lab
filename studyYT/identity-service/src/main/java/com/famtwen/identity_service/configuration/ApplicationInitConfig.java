@@ -27,14 +27,14 @@ public class ApplicationInitConfig {
     ApplicationRunner applicationRunner(UserRepository userRepository)
     {
         return args -> {
-          if(userRepository.findByUsername("adminapp").isEmpty()){
+          if(userRepository.findByUsername("admin").isEmpty()){
               var roles = new HashSet<String>();
               roles.add(Role.ADMIN.name());
 
               User user =  User.builder()
-                      .username("adminapp")
-                      .password(passwordEncoder.encode("adminapp"))
-                      .roles(roles)
+                      .username("admin")
+                      .password(passwordEncoder.encode("admin"))
+                    //  .roles(roles)
                       .build();
               userRepository.save(user);
               log.warn("admin account has been created with default password: adminapp, please change it!!!");

@@ -9,23 +9,18 @@ import com.famtwen.identity_service.exception.AppException;
 import com.famtwen.identity_service.exception.ErrorCode;
 import com.famtwen.identity_service.mapper.UserMapper;
 import com.famtwen.identity_service.repository.UserRepository;
-
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -49,7 +44,7 @@ public class UserService {
 
         roles.add(Role.USER.name());
 
-        user.setRoles(roles);
+      //  user.setRoles(roles);
 
         return userMapper.toUserResponse(userRepository.save(user));
     }

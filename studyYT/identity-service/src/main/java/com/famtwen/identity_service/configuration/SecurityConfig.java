@@ -42,14 +42,18 @@ public class SecurityConfig {
         });
 
         httpSecurity.oauth2ResourceServer(oauth2 ->
-                oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder()))
+                oauth2.jwt(jwtConfigurer ->
+                        jwtConfigurer.decoder(jwtDecoder())
+                                .jwtAuthenticationConverter(jwtAuthenticationConverter())
+                ).authenticationEntryPoint(new JWTAuthenticationEntryPoint())
         );
 
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
         return httpSecurity.build();
     }
+
     @Bean
-    JwtAuthenticationConverter jwtAuthenticationConverter(){
+    JwtAuthenticationConverter jwtAuthenticationConverter() {
         /* Tạo một đối tượng JwtGrantedAuthoritiesConverter
            Thay đổi các thông tin về quyền (authorities) từ JWT vào dạng các object quyền
            mà Spring Security có thể sử dụng*/
@@ -66,6 +70,7 @@ public class SecurityConfig {
          thành các quyền mà Spring Security có thể sử dụng để xác thực và phân quyền người dùng.*/
         return jwtAuthenticationConverter;
     }
+
     @Bean
     JwtDecoder jwtDecoder() {
         SecretKeySpec secretKeySpec = new SecretKeySpec(signerKey.getBytes(), "HS512");
@@ -73,7 +78,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    PasswordEncoder passwordEncoder(){
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10);
     }
 }
