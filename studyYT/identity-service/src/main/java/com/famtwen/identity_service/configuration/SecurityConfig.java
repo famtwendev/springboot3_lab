@@ -61,7 +61,7 @@ public class SecurityConfig {
         /* Thiết lập tiền tố "ROLE_" cho các quyền lấy từ JWT
            VD: Nếu JWT có quyền "admin", qua converter sẽ trở thành "ROLE_admin"
          */
-        jwtGrantedAuthoritiesConverter.setAuthorityPrefix("ROLE_");
+        jwtGrantedAuthoritiesConverter.setAuthorityPrefix("");
         // Tạo một đối tượng JwtAuthenticationConverter
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
         // Thiết lập JwtGrantedAuthoritiesConverter vào JwtAuthenticationConverter

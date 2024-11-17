@@ -1,6 +1,8 @@
 package com.famtwen.identity_service.dto.request;
 
 import java.time.LocalDate;
+import java.util.List;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -14,4 +16,5 @@ public class UserUpdateRequest {
     String firstName;
     String lastName;
     LocalDate dob;
+    List<String> roles;
 }
