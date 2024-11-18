@@ -13,7 +13,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import java.io.IOException;
 
 public class JWTAuthenticationEntryPoint implements AuthenticationEntryPoint {
-
+    // Bắt lỗi 401, Khi ko có permission để sử dụng các method security
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)

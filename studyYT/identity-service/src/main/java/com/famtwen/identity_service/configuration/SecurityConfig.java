@@ -1,6 +1,7 @@
 package com.famtwen.identity_service.configuration;
 
 import com.famtwen.identity_service.enums.Role;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,16 +25,19 @@ import javax.crypto.spec.SecretKeySpec;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-
+    //File code này cấu hình bảo mật cho một ứng dụng sử dụng Spring Security
     private static final String[] PUBLIC_ENDPOINTS = {
             "/users",
             "/auth/token",
             "/auth/introspect",
+            "/auth/logout",
     };
 
-    @Value("${spring.jwt.signerkey}")
-    private String signerKey;
+    @Autowired
+    private CustomJwtDecoder customJwtDecoder;
 
+    /* cấu hình bảo mật HTTP cho ứng dụng.
+    Các endpoint được xác định rõ sẽ yêu cầu xác thực hay không thông qua*/
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(request -> {
@@ -43,7 +47,7 @@ public class SecurityConfig {
 
         httpSecurity.oauth2ResourceServer(oauth2 ->
                 oauth2.jwt(jwtConfigurer ->
-                        jwtConfigurer.decoder(jwtDecoder())
+                        jwtConfigurer.decoder(customJwtDecoder)
                                 .jwtAuthenticationConverter(jwtAuthenticationConverter())
                 ).authenticationEntryPoint(new JWTAuthenticationEntryPoint())
         );
@@ -69,12 +73,6 @@ public class SecurityConfig {
         /*JwtAuthenticationConverter dùng JwtGrantedAuthoritiesConverter để chuyển đổi quyền trong JWT
          thành các quyền mà Spring Security có thể sử dụng để xác thực và phân quyền người dùng.*/
         return jwtAuthenticationConverter;
-    }
-
-    @Bean
-    JwtDecoder jwtDecoder() {
-        SecretKeySpec secretKeySpec = new SecretKeySpec(signerKey.getBytes(), "HS512");
-        return NimbusJwtDecoder.withSecretKey(secretKeySpec).macAlgorithm(MacAlgorithm.HS512).build();
     }
 
     @Bean

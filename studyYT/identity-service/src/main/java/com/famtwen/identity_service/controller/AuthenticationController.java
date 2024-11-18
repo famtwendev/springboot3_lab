@@ -4,6 +4,7 @@ package com.famtwen.identity_service.controller;
 import com.famtwen.identity_service.dto.request.ApiResponse;
 import com.famtwen.identity_service.dto.request.AuthenticationRequest;
 import com.famtwen.identity_service.dto.request.IntrospectRequest;
+import com.famtwen.identity_service.dto.request.LogoutRequest;
 import com.famtwen.identity_service.dto.response.AuthenticationResponse;
 import com.famtwen.identity_service.dto.response.IntrospectResponse;
 import com.famtwen.identity_service.dto.response.UserResponse;
@@ -38,5 +39,12 @@ public class AuthenticationController {
     ApiResponse<IntrospectResponse> authenticated(@RequestBody IntrospectRequest request) throws ParseException, JOSEException {
         var result = authenticationService.introspect(request);
         return ApiResponse.<IntrospectResponse>builder().result(result).build();
+    }
+
+    @PostMapping("/logout")
+    ApiResponse<Void> logout(@RequestBody LogoutRequest request)
+            throws ParseException, JOSEException {
+        authenticationService.logout(request);
+        return ApiResponse.<Void>builder().message("Log out success").build();
     }
 }

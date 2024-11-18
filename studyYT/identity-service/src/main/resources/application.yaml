@@ -3,16 +3,22 @@ server:
   servlet:
     context-path: /identity
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include=*:
+          
 spring:
   datasource:
     url: "jdbc:mysql://localhost:3307/identity_service"
     username: root
     password: admin
 
-#  security:
-#    user:
-#      name: root
-#      password: root
+  #  security:
+  #    user:
+  #      name: root
+  #      password: root
 
   #config show banner
   jpa:
@@ -21,7 +27,7 @@ spring:
     show-sql: true
 
   jwt:
-    signerkey : "XWl33AU6HWMautGS26y9CbGCIigErNizJnufWoFGEjvjUaIJBjmen2ggppRMM8Hy"
+    signerkey: "XWl33AU6HWMautGS26y9CbGCIigErNizJnufWoFGEjvjUaIJBjmen2ggppRMM8Hy"
 
   main:
     banner-mode: off
