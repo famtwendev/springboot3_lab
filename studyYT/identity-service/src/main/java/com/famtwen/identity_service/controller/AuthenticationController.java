@@ -1,22 +1,18 @@
 package com.famtwen.identity_service.controller;
 
-
-import com.famtwen.identity_service.dto.request.ApiResponse;
-import com.famtwen.identity_service.dto.request.AuthenticationRequest;
-import com.famtwen.identity_service.dto.request.IntrospectRequest;
-import com.famtwen.identity_service.dto.request.LogoutRequest;
+import com.famtwen.identity_service.dto.request.*;
 import com.famtwen.identity_service.dto.response.AuthenticationResponse;
 import com.famtwen.identity_service.dto.response.IntrospectResponse;
-import com.famtwen.identity_service.dto.response.UserResponse;
 import com.famtwen.identity_service.service.AuthenticationService;
-import com.famtwen.identity_service.service.UserService;
 import com.nimbusds.jose.JOSEException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.text.ParseException;
 
@@ -46,5 +42,12 @@ public class AuthenticationController {
             throws ParseException, JOSEException {
         authenticationService.logout(request);
         return ApiResponse.<Void>builder().message("Log out success").build();
+    }
+
+    @PostMapping("/refresh")
+    ApiResponse<AuthenticationResponse> authenticated(@RequestBody RefreshRequest request)
+            throws ParseException, JOSEException {
+        var result = authenticationService.refreshToken(request);
+        return ApiResponse.<AuthenticationResponse>builder().result(result).build();
     }
 }

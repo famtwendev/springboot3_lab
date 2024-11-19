@@ -3,6 +3,7 @@ package com.famtwen.identity_service.service;
 import com.famtwen.identity_service.dto.request.AuthenticationRequest;
 import com.famtwen.identity_service.dto.request.IntrospectRequest;
 import com.famtwen.identity_service.dto.request.LogoutRequest;
+import com.famtwen.identity_service.dto.request.RefreshRequest;
 import com.famtwen.identity_service.dto.response.AuthenticationResponse;
 import com.famtwen.identity_service.dto.response.IntrospectResponse;
 import com.famtwen.identity_service.entity.InvalidatedToken;
@@ -56,10 +57,10 @@ public class AuthenticationService {
         Date expiryTime = signedJWT.getJWTClaimsSet().getExpirationTime();
         var verified = signedJWT.verify(verifier);
 
-        if(!(verified && expiryTime.after(new Date())))
+        if (!(verified && expiryTime.after(new Date())))
             throw new AppException(ErrorCode.UNAUTHENTICATED);
 
-        if(invalidatedTokenRepository.existsById(signedJWT.getJWTClaimsSet().getJWTID()))
+        if (invalidatedTokenRepository.existsById(signedJWT.getJWTClaimsSet().getJWTID()))
             throw new AppException(ErrorCode.UNAUTHENTICATED);
 
         return signedJWT;
@@ -91,6 +92,33 @@ public class AuthenticationService {
                 .build();
 
         invalidatedTokenRepository.save(invalidatedToken);
+    }
+
+    public AuthenticationResponse refreshToken(RefreshRequest request)
+            throws ParseException, JOSEException {
+        var signJWT = verifyToken(request.getToken());
+        var jti = signJWT.getJWTClaimsSet().getJWTID();
+
+        var expiryTime = signJWT.getJWTClaimsSet().getExpirationTime();
+
+
+        InvalidatedToken invalidatedToken = InvalidatedToken.builder()
+                .id(jti)
+                .expiryTime(expiryTime)
+                .build();
+
+        invalidatedTokenRepository.save(invalidatedToken);
+
+        var username = signJWT.getJWTClaimsSet().getSubject();
+        var user = userRepository.findByUsername(username).orElseThrow(
+                () -> new AppException(ErrorCode.UNAUTHENTICATED)
+        );
+        var token = generateToken(user);
+
+        return AuthenticationResponse.builder()
+                .token(token)
+                .authenticated(true)
+                .build();
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
