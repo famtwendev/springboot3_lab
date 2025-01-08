@@ -13,6 +13,7 @@ import com.famtwen.identity_service.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,6 +26,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Slf4j
 public class UserService {
     UserRepository userRepository;
     RoleRepository roleRepository;
@@ -50,9 +52,19 @@ public class UserService {
         return userMapper.toUserResponse(userRepository.save(user));
     }
 
+    @PreAuthorize("hasRole('ADMIN') or @userRepository.findById(#userId).get().username == authentication.name")
     public UserResponse updateUser(String userId, UserUpdateRequest request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+
+//        var context = SecurityContextHolder.getContext();
+//        String currentUsername = context.getAuthentication().getName();
+//        // Kiểm tra nếu người dùng không phải là admin và đang cố gắng cập nhật người dùng khác
+//        if (!currentUsername.equals(user.getUsername()) && !context.getAuthentication().getAuthorities().stream()
+//                .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"))) {
+//            log.error("LOI ROLE ADMIN");
+//            throw new AppException(ErrorCode.UNAUTHORIZED); // hoặc tùy chỉnh exception
+//        }
 
         userMapper.updateUser(user, request);
 
