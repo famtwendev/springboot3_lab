@@ -5,17 +5,20 @@ import com.famtwen.identity_service.dto.response.UserResponse;
 import com.famtwen.identity_service.entity.User;
 import com.famtwen.identity_service.exception.AppException;
 import com.famtwen.identity_service.repository.UserRepository;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestPropertySource;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
@@ -78,9 +81,8 @@ public class UserServiceTest {
         var response = userService.createUser(request);
 
         //THEN
-        Assertions.assertEquals("e5145141515142", response.getId());
-        Assertions.assertEquals("joindoe", response.getUsername());
-
+        Assertions.assertThat(response.getId()).isEqualTo("e5145141515142");
+        Assertions.assertThat(response.getUsername()).isEqualTo("joindoe");
 
     }
 
@@ -90,11 +92,32 @@ public class UserServiceTest {
         when(userRepository.existsByUsername(anyString())).thenReturn(true);
 
         //WHEN
-        var exception = Assertions.assertThrows(AppException.class, () -> userService.createUser(request));
+        var exception = assertThrows(AppException.class, () -> userService.createUser(request));
 
         //THEN
-        Assertions.assertEquals(1002, exception.getErrorCode()
-                                                 .getCode());
+        Assertions.assertThat(exception.getErrorCode().getCode()).isEqualTo(1002);
+    }
 
+    @Test
+    @WithMockUser(username = "joindoe")
+    void getMyInfo_valid_success(){
+        when(userRepository.findByUsername(anyString())).thenReturn(Optional.of(user));
+
+        var reponse = userService.getMyinfo();
+
+        Assertions.assertThat(reponse.getUsername()).isEqualTo("joindoe");
+        Assertions.assertThat(reponse.getId()).isEqualTo("e5145141515142");
+    }
+
+
+    @Test
+    @WithMockUser(username = "joindoe")
+    void getMyInfo_userNotFound_error() {
+        when(userRepository.findByUsername(anyString())).thenReturn(Optional.ofNullable(null));
+
+        // WHEN
+        var exception = assertThrows(AppException.class, () -> userService.getMyinfo());
+
+        Assertions.assertThat(exception.getErrorCode().getCode()).isEqualTo(1005);
     }
 }

@@ -2,6 +2,7 @@ package com.famtwen.identity_service.controller;
 
 import com.famtwen.identity_service.dto.request.UserCreationRequest;
 import com.famtwen.identity_service.dto.response.UserResponse;
+import com.famtwen.identity_service.repository.UserRepository;
 import com.famtwen.identity_service.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -20,9 +21,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -43,6 +44,9 @@ public class UserControllerTest {
     private UserResponse userResponse;
 
     private LocalDate dob;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @BeforeEach
     void initData() {
@@ -126,4 +130,5 @@ public class UserControllerTest {
 
         //THEN
     }
+
 }
